@@ -62,16 +62,21 @@
         [resultArray addObject:arg];
         va_start(argsList, arg);
         while((arg = va_arg(argsList, id)) != nil)
-            [resultArray addObject:arg];
+        [resultArray addObject:arg];
         va_end(argsList);
     }
     
-    NSData *data = [NSJSONSerialization dataWithJSONObject:resultArray options:0 error:nil];
-    NSString *resultArrayString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
+    NSString * jsText = nil;
+    if(resultArray.count > 0) {
+        NSData *data = [NSJSONSerialization dataWithJSONObject:resultArray options:0 error:nil];
+        NSString *resultArrayString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        jsText = [NSString stringWithFormat:@"JS2ObjCBridge.resultForCallback(%d,%@);",callbackId,resultArrayString];
+    } else {
+        jsText = [NSString stringWithFormat:@"JS2ObjCBridge.resultForCallback(%d);",callbackId];
+    }
     // We need to perform selector with afterDelay 0 in order to avoid weird recursion stop
     // when calling JS2ObjCBridge in a recursion more then 200 times :s (fails ont 201th calls!!!)
-    [self performSelector:@selector(returnResultAfterDelay:) withObject:[NSString stringWithFormat:@"JS2ObjCBridge.resultForCallback(%d,%@);",callbackId,resultArrayString] afterDelay:0];
+    [self performSelector:@selector(returnResultAfterDelay:) withObject:jsText afterDelay:0];
 }
 
 -(void)returnResultAfterDelay:(NSString*)str
