@@ -18,22 +18,34 @@
     [_webView loadRequest:request];
 }
 
+#pragma mark - UIWebViewDelegate
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {
 	NSString *requestString = [[request URL] absoluteString];
-    NSLog(@"request : %@",requestString);
+    //NSLog(@"%s,%d request : %@",__FUNCTION__,__LINE__,requestString);
     if ([requestString hasPrefix:@"js-frame:"]) {
-        NSArray *components = [requestString componentsSeparatedByString:@":"];
-        NSString *function = (NSString*)[components objectAtIndex:1];
-		int callbackId = [((NSString*)[components objectAtIndex:2]) intValue];
-        NSString *argsAsString = [(NSString*)[components objectAtIndex:3] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSData * data = [argsAsString dataUsingEncoding:NSUTF8StringEncoding];
-        NSArray *args = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        [self handleCall:function callbackId:callbackId args:args];
+        [self handleJSFrameRequest:requestString];
         return NO;
     }
     
     return YES;
+}
+
+#pragma mark - JS2ObjcBridge
+
+- (void)handleJSFrameRequest:(NSString *)requestString
+{
+    NSArray *components = [requestString componentsSeparatedByString:@":"];
+    if(components.count == 4) {
+        NSString *function = (NSString*)[components objectAtIndex:1];
+        int callbackId = [((NSString*)[components objectAtIndex:2]) intValue];
+        NSString *argsAsString = [(NSString*)[components objectAtIndex:3] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"%s,%d function name: %@ args:%@ callbackId:%@",__FUNCTION__,__LINE__,function,argsAsString,@(callbackId));
+        NSData * data = [argsAsString dataUsingEncoding:NSUTF8StringEncoding];
+        NSArray *args = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        [self handleCall:function callbackId:callbackId args:args];
+    }
 }
 
 // Call this function when you have results to send back to javascript callbacks
