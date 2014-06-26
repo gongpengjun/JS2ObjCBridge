@@ -1,12 +1,12 @@
 
-var NativeBridge = {
+var JS2ObjCBridge = {
   callbacksCount : 1,
   callbacks : {},
   
   // Automatically called by native layer when a result is available
   resultForCallback : function resultForCallback(callbackId, resultArray) {
     try {
-    var callback = NativeBridge.callbacks[callbackId];
+    var callback = JS2ObjCBridge.callbacks[callbackId];
     if (!callback) return;
     
     callback.apply(null,resultArray);
@@ -20,10 +20,10 @@ var NativeBridge = {
   call : function call(functionName, args, callback) {
     
     var hasCallback = callback && typeof callback == "function";
-    var callbackId = hasCallback ? NativeBridge.callbacksCount++ : 0;
+    var callbackId = hasCallback ? JS2ObjCBridge.callbacksCount++ : 0;
     
     if (hasCallback)
-      NativeBridge.callbacks[callbackId] = callback;
+      JS2ObjCBridge.callbacks[callbackId] = callback;
     
     var iframe = document.createElement("IFRAME");
     iframe.setAttribute("src", "js-frame:" + functionName + ":" + callbackId+ ":" + encodeURIComponent(JSON.stringify(args)));

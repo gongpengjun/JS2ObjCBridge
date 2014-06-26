@@ -21,8 +21,8 @@
 		C44E29AB195C12E800263E68 /* test.js in Sources */ = {isa = PBXBuildFile; fileRef = C44E29A9195C12E800263E68 /* test.js */; };
 		C44E29AC195C12FE00263E68 /* test.js in Resources */ = {isa = PBXBuildFile; fileRef = C44E29A9195C12E800263E68 /* test.js */; };
 		C44E29B1195C13DE00263E68 /* GpjWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C44E29AF195C13DE00263E68 /* GpjWebViewController.m */; };
-		C44E29B2195C13DE00263E68 /* NativeBridge.js in Sources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* NativeBridge.js */; };
-		C44E29B3195C13F300263E68 /* NativeBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* NativeBridge.js */; };
+		C44E29B2195C13DE00263E68 /* JS2ObjCBridge.js in Sources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */; };
+		C44E29B3195C13F300263E68 /* JS2ObjCBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 		C44E29A9195C12E800263E68 /* test.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.js; sourceTree = "<group>"; };
 		C44E29AE195C13DE00263E68 /* GpjWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GpjWebViewController.h; sourceTree = "<group>"; };
 		C44E29AF195C13DE00263E68 /* GpjWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GpjWebViewController.m; sourceTree = "<group>"; };
-		C44E29B0195C13DE00263E68 /* NativeBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = NativeBridge.js; sourceTree = "<group>"; };
+		C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JS2ObjCBridge.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 			children = (
 				C44E29AE195C13DE00263E68 /* GpjWebViewController.h */,
 				C44E29AF195C13DE00263E68 /* GpjWebViewController.m */,
-				C44E29B0195C13DE00263E68 /* NativeBridge.js */,
+				C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */,
 			);
 			path = JS2ObjCBridge;
 			sourceTree = "<group>";
@@ -193,7 +193,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C44E29B3195C13F300263E68 /* NativeBridge.js in Resources */,
+				C44E29B3195C13F300263E68 /* JS2ObjCBridge.js in Resources */,
 				C44E29AC195C12FE00263E68 /* test.js in Resources */,
 				C44E29A0195C0E7100263E68 /* Main.storyboard in Resources */,
 				C44E295D195BD20E00263E68 /* Images.xcassets in Resources */,
@@ -214,7 +214,7 @@
 				C44E2958195BD20E00263E68 /* GpjMasterViewController.m in Sources */,
 				C44E294E195BD20E00263E68 /* main.m in Sources */,
 				C44E29B1195C13DE00263E68 /* GpjWebViewController.m in Sources */,
-				C44E29B2195C13DE00263E68 /* NativeBridge.js in Sources */,
+				C44E29B2195C13DE00263E68 /* JS2ObjCBridge.js in Sources */,
 				C44E295B195BD20E00263E68 /* GpjDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

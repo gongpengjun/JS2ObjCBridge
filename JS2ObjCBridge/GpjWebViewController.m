@@ -58,8 +58,8 @@
     NSString *resultArrayString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     
     // We need to perform selector with afterDelay 0 in order to avoid weird recursion stop
-    // when calling NativeBridge in a recursion more then 200 times :s (fails ont 201th calls!!!)
-    [self performSelector:@selector(returnResultAfterDelay:) withObject:[NSString stringWithFormat:@"NativeBridge.resultForCallback(%d,%@);",callbackId,resultArrayString] afterDelay:0];
+    // when calling JS2ObjCBridge in a recursion more then 200 times :s (fails ont 201th calls!!!)
+    [self performSelector:@selector(returnResultAfterDelay:) withObject:[NSString stringWithFormat:@"JS2ObjCBridge.resultForCallback(%d,%@);",callbackId,resultArrayString] afterDelay:0];
 }
 
 -(void)returnResultAfterDelay:(NSString*)str

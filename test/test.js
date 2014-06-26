@@ -3,7 +3,7 @@ function setIntervalTest(onSuccess) {
   var starTime = new Date().getTime();
   var interval = window.setInterval(function () {
   
-    NativeBridge.call("setBackgroundColor", [0,0,i++/255]);
+    JS2ObjCBridge.call("setBackgroundColor", [0,0,i++/255]);
     
     document.getElementById("count").innerHTML = i;
     document.getElementById("count2").textContent = i;
@@ -32,7 +32,7 @@ function callbackLoopTest(onSuccess) {
       document.getElementById("count").innerHTML = i;
       document.getElementById("count2").textContent = i;
     
-      NativeBridge.call("setBackgroundColor", [0,0,i++/255], function () {
+      JS2ObjCBridge.call("setBackgroundColor", [0,0,i++/255], function () {
         loop();
       });
     } catch(e) {
@@ -43,9 +43,9 @@ function callbackLoopTest(onSuccess) {
 }
 
 function promptTest(onSuccess) {
-  NativeBridge.call("setBackgroundColor", [0,0,1]);
+  JS2ObjCBridge.call("setBackgroundColor", [0,0,1]);
   window.setTimeout(function () {
-    NativeBridge.call("prompt", ["do you see blue background ?"],function (response){
+    JS2ObjCBridge.call("prompt", ["do you see blue background ?"],function (response){
       if (response) {
         document.body.innerHTML+="<br/>You saw blue background, all is perfectly fine!<br/>";
       } else {
@@ -58,7 +58,7 @@ function promptTest(onSuccess) {
 }
 
 function titleTest(title,onSuccess) {
-    NativeBridge.call("setPageTitle", [title]);
+    JS2ObjCBridge.call("setPageTitle", [title]);
     if (onSuccess) onSuccess();
 }
 
