@@ -49,7 +49,7 @@ function promptTest(onSuccess) {
       if (response) {
         document.body.innerHTML+="<br/>You saw blue background, all is perfectly fine!<br/>";
       } else {
-        document.body.innerHTML+="<br/>Are you sure ? Because you have to see blue!<br/>";
+        document.body.innerHTML+="<br/>Are you sure ? Please configure your webview as non-opaque (UIWebView.opaque = NO)!<br/>";
       }
       if (onSuccess)
         onSuccess();
@@ -58,8 +58,14 @@ function promptTest(onSuccess) {
 }
 
 function titleTest(title,onSuccess) {
-    JS2ObjCBridge.call("setPageTitle", [title]);
+    JS2ObjCBridge.call("setTitle", [title]);
     if (onSuccess) onSuccess();
+}
+
+var _back_prompt_on_page_leave = {'zh': '不要退出啊...', 'en': 'Stay with me, please...'};
+
+function back_prompt(lang) {
+    return _back_prompt_on_page_leave[lang];
 }
 
 window.addEventListener("load",function () {

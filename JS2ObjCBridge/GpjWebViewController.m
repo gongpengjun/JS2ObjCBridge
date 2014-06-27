@@ -7,16 +7,31 @@
 //
 
 #import "GpjWebViewController.h"
+#import "UIAlertView+Block.h"
+
+@interface GpjWebViewController ()
+@property (nonatomic, assign) BOOL goBackApp;
+@property (nonatomic, assign) BOOL goBackRefresh;
+@end
 
 @implementation GpjWebViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+    [backBtn setTitle:@"Back" forState:UIControlStateNormal];
+    [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    
     NSAssert(_webView.delegate == self, @"fatal error");
     NSURLRequest *request = [NSURLRequest requestWithURL:_url];
     [_webView loadRequest:request];
 }
+
+
 
 #pragma mark - UIWebViewDelegate
 
@@ -90,6 +105,99 @@
 - (void)handleCall:(NSString*)functionName callbackId:(int)callbackId args:(NSArray*)args
 {
     NSLog(@"functionName:%@, callbackId:%@, args:%@",functionName,@(callbackId), args);
+    if ([functionName isEqualToString:@"setTitle"]) {
+        [self setPageTitle:args callbackId:callbackId];
+    } else if ([functionName isEqualToString:@"goBackApp"]) {
+        [self setGoBackApp:args callbackId:callbackId];
+    } else if ([functionName isEqualToString:@"goBackRefresh"]) {
+        [self setGoBackRefresh:args callbackId:callbackId];
+    } else if ([functionName isEqualToString:@"prompt"]) {
+        [self showDialog:args callbackId:callbackId];
+    } else {
+        NSLog(@"Unimplemented method '%@'",functionName);
+    }
+}
+
+#pragma mark - JavaScript API
+
+- (void)setPageTitle:(NSArray*)args callbackId:(int)callbackId
+{
+    NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
+    self.title = (NSString*)[args objectAtIndex:0];
+    [self returnResult:callbackId args:nil];
+}
+
+- (void)setGoBackApp:(NSArray*)args callbackId:(int)callbackId
+{
+    NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
+    _goBackApp = [(NSString*)[args objectAtIndex:0] boolValue];
+    [self returnResult:callbackId args:nil];
+}
+
+- (void)setGoBackRefresh:(NSArray*)args callbackId:(int)callbackId
+{
+    NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
+    _goBackRefresh = [(NSString*)[args objectAtIndex:0] boolValue];
+    [self returnResult:callbackId args:nil];
+}
+
+- (void)showDialog:(NSArray*)args callbackId:(int)callbackId
+{
+    NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
+    NSString *message = (NSString*)[args objectAtIndex:0];
+    [UIAlertView showWithTitle:nil
+                       message:message
+             cancelButtonTitle:@"取消"
+             otherButtonTitles:@[@"确定"]
+                     onDismiss:^(NSInteger buttonIndex, NSInteger firstOtherButtonIndex) {
+                         [self returnResult:callbackId args:@(YES),nil];
+                     }
+                      onCancel:^{
+                          [self returnResult:callbackId args:@(NO),nil];
+                      }];
+}
+
+#pragma mark - Actions
+
+- (void)backButtonAction
+{
+    NSString *functionname = @"back_prompt(\"zh\")";
+    NSString *backstr = [_webView stringByEvaluatingJavaScriptFromString:functionname];
+    if ([backstr isKindOfClass:[NSString class]] && backstr.length > 0) {
+        [UIAlertView showWithTitle:nil
+                           message:backstr
+                 cancelButtonTitle:@"不退出"
+                 otherButtonTitles:@[@"退出"]
+                         onDismiss:^(NSInteger buttonIndex, NSInteger firstOtherButtonIndex) {
+                             if (buttonIndex == firstOtherButtonIndex) {
+                                 if(self.webView.canGoBack) {
+                                     [self.webView goBack];
+                                 } else {
+                                     [self doBack];
+                                 }
+                             }
+                         }
+                          onCancel:^{
+                              // do nothing
+                          }];
+    } else {
+        if(self.webView.canGoBack) {
+            [self.webView goBack];
+        } else {
+            [self doBack];
+        }
+    }
+}
+
+- (void)doBack
+{
+    if(_goBackApp) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else if (_goBackRefresh) {
+        [self.webView reload];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end

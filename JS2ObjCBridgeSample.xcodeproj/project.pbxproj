@@ -23,6 +23,7 @@
 		C44E29B1195C13DE00263E68 /* GpjWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C44E29AF195C13DE00263E68 /* GpjWebViewController.m */; };
 		C44E29B2195C13DE00263E68 /* JS2ObjCBridge.js in Sources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */; };
 		C44E29B3195C13F300263E68 /* JS2ObjCBridge.js in Resources */ = {isa = PBXBuildFile; fileRef = C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */; };
+		C45E6545195D3DA70097B659 /* UIAlertView+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = C45E6544195D3DA70097B659 /* UIAlertView+Block.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		C44E29AE195C13DE00263E68 /* GpjWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GpjWebViewController.h; sourceTree = "<group>"; };
 		C44E29AF195C13DE00263E68 /* GpjWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GpjWebViewController.m; sourceTree = "<group>"; };
 		C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JS2ObjCBridge.js; sourceTree = "<group>"; };
+		C45E6543195D3DA70097B659 /* UIAlertView+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Block.h"; sourceTree = "<group>"; };
+		C45E6544195D3DA70097B659 /* UIAlertView+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Block.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +138,8 @@
 			children = (
 				C44E29AE195C13DE00263E68 /* GpjWebViewController.h */,
 				C44E29AF195C13DE00263E68 /* GpjWebViewController.m */,
+				C45E6543195D3DA70097B659 /* UIAlertView+Block.h */,
+				C45E6544195D3DA70097B659 /* UIAlertView+Block.m */,
 				C44E29B0195C13DE00263E68 /* JS2ObjCBridge.js */,
 			);
 			path = JS2ObjCBridge;
@@ -214,6 +219,7 @@
 				C44E2958195BD20E00263E68 /* GpjMasterViewController.m in Sources */,
 				C44E294E195BD20E00263E68 /* main.m in Sources */,
 				C44E29B1195C13DE00263E68 /* GpjWebViewController.m in Sources */,
+				C45E6545195D3DA70097B659 /* UIAlertView+Block.m in Sources */,
 				C44E29B2195C13DE00263E68 /* JS2ObjCBridge.js in Sources */,
 				C44E295B195BD20E00263E68 /* GpjDetailViewController.m in Sources */,
 			);

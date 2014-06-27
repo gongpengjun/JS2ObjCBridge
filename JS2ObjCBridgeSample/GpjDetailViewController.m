@@ -8,12 +8,6 @@
 
 #import "GpjDetailViewController.h"
 
-@interface GpjDetailViewController () <UIAlertViewDelegate>
-{
-    int alertCallbackId;
-}
-@end
-
 @implementation GpjDetailViewController
 
 - (void)viewDidLoad
@@ -25,70 +19,23 @@
 - (void)handleCall:(NSString*)functionName callbackId:(int)callbackId args:(NSArray*)args
 {
     if ([functionName isEqualToString:@"setBackgroundColor"]) {
-        [self setBackgroundColor:args];
-        [self returnResult:callbackId args:nil];
-    } else if ([functionName isEqualToString:@"setPageTitle"]) {
-        [self setPageTitle:args];
-    } else if ([functionName isEqualToString:@"prompt"]) {
-        alertCallbackId = callbackId;
-        [self prompt:args];
+        [self setBackgroundColor:args callbackId:callbackId];
     } else {
-        NSLog(@"Unimplemented method '%@'",functionName);
+        [super handleCall:functionName callbackId:callbackId args:args];
     }
 }
 
 #pragma mark - JavaScript Interface
 
-- (void)setBackgroundColor:(NSArray*)args
+- (void)setBackgroundColor:(NSArray*)args callbackId:(int)callbackId
 {
-    if ([args count]!=3) {
-        NSLog(@"setBackgroundColor wait exactly 3 arguments!");
-        return;
-    }
+    NSAssert2([args count] == 3, @"%s,%d wait exactly 3 arguments!",__FUNCTION__,__LINE__);
     NSNumber *red = (NSNumber*)[args objectAtIndex:0];
     NSNumber *green = (NSNumber*)[args objectAtIndex:1];
     NSNumber *blue = (NSNumber*)[args objectAtIndex:2];
     NSLog(@"setBackgroundColor(%@,%@,%@)",red,green,blue);
     self.webView.backgroundColor = [UIColor colorWithRed:[red floatValue] green:[green floatValue] blue:[blue floatValue] alpha:1.0];
+    [self returnResult:callbackId args:nil];
 }
-
-- (void)setPageTitle:(NSArray*)args
-{
-    if ([args count]!=1) {
-        NSLog(@"setTitle wait exactly one argument!");
-        return;
-    }
-    NSString *title = (NSString*)[args objectAtIndex:0];
-    self.title = title;
-}
-
-- (void)prompt:(NSArray*)args
-{
-    if ([args count]!=1) {
-        NSLog(@"prompt wait exactly one argument!");
-        return;
-    }
-    
-    NSString *message = (NSString*)[args objectAtIndex:0];
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-    [alert show];
-}
-
-#pragma mark - UIAlertViewDelegate
-
-// Just one example with AlertView that show how to return asynchronous results
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (!alertCallbackId) return;
-    
-    NSLog(@"prompt result : %d",buttonIndex);
-    
-    BOOL result = buttonIndex==1?YES:NO;
-    [self returnResult:alertCallbackId args:[NSNumber numberWithBool:result],nil];
-    
-    alertCallbackId = 0;
-}
-
 
 @end
