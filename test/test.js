@@ -70,6 +70,7 @@ function back_prompt(lang) {
 
 window.addEventListener("load",function () {
     try {
+        JS2ObjCBridge.call("log", ["on window load"]);
         titleTest("Test Begin");
         callbackLoopTest(function () {
                          

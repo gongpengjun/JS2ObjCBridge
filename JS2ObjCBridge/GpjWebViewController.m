@@ -111,6 +111,8 @@
         [self setGoBackApp:args callbackId:callbackId];
     } else if ([functionName isEqualToString:@"goBackRefresh"]) {
         [self setGoBackRefresh:args callbackId:callbackId];
+    } else if ([functionName isEqualToString:@"log"]) {
+        [self log:args callbackId:callbackId];
     } else if ([functionName isEqualToString:@"prompt"]) {
         [self showDialog:args callbackId:callbackId];
     } else {
@@ -139,6 +141,13 @@
     NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
     _goBackRefresh = [(NSString*)[args objectAtIndex:0] boolValue];
     [self returnResult:callbackId args:nil];
+}
+
+- (void)log:(NSArray*)args callbackId:(int)callbackId
+{
+    NSAssert2([args count] == 1, @"%s,%d wait exactly one argument!",__FUNCTION__,__LINE__);
+    NSString *message = (NSString*)[args objectAtIndex:0];
+    NSLog(@"JS Log: %@",message);
 }
 
 - (void)showDialog:(NSArray*)args callbackId:(int)callbackId
